@@ -1,6 +1,5 @@
 import dotenv from 'dotenv'
 import { TwitterClient } from 'twitter-api-client';
-import IClientOptions from 'twitter-api-client/dist/base/IClientOptions';
 
 
 dotenv.config()
@@ -12,10 +11,15 @@ const twitterClient = new TwitterClient({
     accessTokenSecret: process.env.ACCESS_TOKEN_SECRET,
   });
 
-   async  function  isWorking ()  {
-         const data = await twitterClient.accountsAndUsers.usersSearch({ q: 'aruljoe37' });
-
-         console.log(data);
-         
+   async function tweet(query:string) {
+       try {
+        const res:any = await twitterClient.tweets.search({q:query,result_type:"recent",count:1,max_id:0,since_id:"0"})
+        // console.log(res.statuses[0]);
+        const {id_str,favorited} = res.statuses[0];
+        await twitterClient.tweets.favoritesCreate({id:id_str})
+        await twitterClient.tweets.statusesRetweetById({id:id_str})      
+       } catch (e) {
+         console.log(e);
+       }
   }
-  isWorking() 
+  // tweet("Monday") 
