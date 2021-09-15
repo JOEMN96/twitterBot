@@ -1,5 +1,6 @@
 import dotenv from 'dotenv'
 import { TwitterClient } from 'twitter-api-client';
+import {CronJob} from 'cron'
 
 
 dotenv.config()
@@ -13,13 +14,20 @@ const twitterClient = new TwitterClient({
 
    async function tweet(query:string) {
        try {
-        const res:any = await twitterClient.tweets.search({q:query,result_type:"recent",count:1,max_id:0,since_id:"0"})
-        // console.log(res.statuses[0]);
-        const {id_str,favorited} = res.statuses[0];
+        const res:any = await twitterClient.tweets.search({q:query,result_type:"recent",count:1,since_id:0})
+        // console.log(res);
+        const {id_str} = res.statuses[0];
         await twitterClient.tweets.favoritesCreate({id:id_str})
         await twitterClient.tweets.statusesRetweetById({id:id_str})      
        } catch (e) {
          console.log(e);
        }
   }
-  // tweet("Monday") 
+  // tweet("#javascript") 
+
+
+
+  let job = new CronJob('0  */1 * * *', function() {
+    tweet("#javascript") 
+  }, null, true, 'Asia/Kolkata');                                            
+  job.start();
