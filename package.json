@@ -9,7 +9,7 @@
     "postinstall": "tsc",
     "start":"node dist/index.js",
     "build":"tsc",
-    "deploy": "git add . && git commit -m heroku && git push heroku master"
+    "deploy": "git add . && git commit -m 'heroku' && git push heroku master"
 
   },
   "keywords": [],

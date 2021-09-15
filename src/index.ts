@@ -27,7 +27,10 @@ const twitterClient = new TwitterClient({
 
 
 
+
   let job = new CronJob('0  */1 * * *', function() {
     tweet("#javascript") 
+    console.log("Up and Running");
+    
   }, null, true, 'Asia/Kolkata');                                            
   job.start();
