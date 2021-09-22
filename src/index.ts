@@ -23,12 +23,12 @@ const twitterClient = new TwitterClient({
          console.log(e);
        }
   }
-  // tweet("#javascript") 
+  tweet("#javascript") 
 
 
 
 
-  let job = new CronJob('0  */1 * * *', function() {
+  let job = new CronJob('0 * * * *', function() {
     tweet("#javascript") 
     console.log("Up and Running");
     
